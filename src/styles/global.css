@@ -1,0 +1,351 @@
+/* ============================================================
+   NOVA RIVERS — Global Theme
+   Cosmic dark + electric gradient accents
+   ============================================================ */
+
+:root {
+  /* Palette — Futuristic AI Laboratory */
+  --bg-0: #050816;
+  --bg-1: #0a0e1f;
+  --bg-2: #111827; /* surface */
+  --panel: rgba(255, 255, 255, 0.03);
+  --panel-glass: rgba(255, 255, 255, 0.06);
+  --panel-border: rgba(255, 255, 255, 0.08);
+  --panel-border-bright: rgba(255, 255, 255, 0.16);
+
+  --text: #ECEFF6;
+  --text-dim: rgba(236, 239, 246, 0.62);
+  --text-faint: rgba(236, 239, 246, 0.36);
+
+  /* Brand accents */
+  --accent-1: #00e5ff; /* primary — cyan  */
+  --accent-2: #7b61ff; /* secondary — indigo */
+  --accent-3: #14f195; /* accent  — mint */
+  --accent-pink: #ff4d8d; /* used for Aurora highlights */
+  --accent-grad: linear-gradient(
+    120deg,
+    var(--accent-1) 0%,
+    var(--accent-2) 50%,
+    var(--accent-3) 100%
+  );
+  --accent-text-grad: linear-gradient(
+    135deg,
+    #66f0ff 0%,
+    #a89bff 50%,
+    #5ff5b7 100%
+  );
+
+  /* Typography */
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Layout */
+  --maxw: 1280px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --nav-h: 72px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur: 0.9s;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: auto; /* lenis handles smooth scroll */
+}
+
+body {
+  background: var(--bg-0);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.55;
+  overflow-x: hidden;
+  cursor: none; /* custom cursor — reverted on touch / reduced motion */
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: none;
+}
+
+::selection {
+  background: var(--accent-1);
+  color: #fff;
+}
+
+/* Scrollbar (mostly hidden — Lenis drives scroll) */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* ============================================================
+   Typography helpers
+   ============================================================ */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.gradient-text {
+  background: var(--accent-text-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.huge {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  /* Capped smaller so long names (e.g. "NIFRAS S S") never overflow. */
+  font-size: clamp(2.5rem, 7.5vw, 7.5rem);
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+.section {
+  position: relative;
+  padding: clamp(6rem, 13vh, 12rem) var(--gutter);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+}
+
+/* Subtle film grain / vignette */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    radial-gradient(
+      ellipse at 50% 0%,
+      transparent 0%,
+      transparent 55%,
+      rgba(0, 0, 0, 0.45) 100%
+    ),
+    radial-gradient(
+      ellipse at 50% 100%,
+      transparent 0%,
+      transparent 55%,
+      rgba(0, 0, 0, 0.45) 100%
+    );
+  mix-blend-mode: multiply;
+}
+
+/* Noise overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* ============================================================
+   Layout primitives
+   ============================================================ */
+.fine-line {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--panel-border) 20%,
+    var(--panel-border) 80%,
+    transparent
+  );
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-display);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding: 0.32rem 0.7rem;
+  border: 1px solid var(--panel-border);
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* Magnetic button */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 0.95rem 1.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--panel-border);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  transition: border-color 0.4s var(--ease-out), color 0.4s var(--ease-out);
+}
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--accent-grad);
+  opacity: 0;
+  transition: opacity 0.45s var(--ease-out);
+  z-index: -1;
+}
+.btn:hover {
+  border-color: transparent;
+  color: #0a0a14;
+}
+.btn:hover::before {
+  opacity: 1;
+}
+.btn--solid {
+  background: var(--accent-grad);
+  color: #0a0a14;
+  border-color: transparent;
+  font-weight: 600;
+}
+.btn--solid::before {
+  background: var(--accent-grad);
+  opacity: 1;
+  filter: saturate(1.2);
+}
+
+/* ============================================================
+   Section heading
+   ============================================================ */
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  margin-bottom: clamp(3rem, 8vw, 6rem);
+}
+.section-head__index {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  color: var(--accent-2);
+}
+.section-head__title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.2rem, 6vw, 4.6rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  max-width: 18ch;
+}
+.section-head__desc {
+  max-width: 52ch;
+  color: var(--text-dim);
+  font-size: clamp(1rem, 1.6vw, 1.18rem);
+  line-height: 1.6;
+}
+
+/* ============================================================
+   Utility
+   ============================================================ */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================================================
+   Touch / reduced-motion fallback
+   ============================================================ */
+@media (hover: none), (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+  button,
+  a {
+    cursor: pointer;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  body {
+    cursor: auto;
+  }
+}
